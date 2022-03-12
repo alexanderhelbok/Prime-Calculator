@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+// ====== ToDo: Change src array to dynamic to prevent too large mem allocation ======
+
 #define lenght 45
 int i,j;
 
