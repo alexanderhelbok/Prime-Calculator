@@ -1,23 +1,20 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define lenght 10
-int i;
+#define lenght 45
+int i,j;
 
-void Fib(int srcArr[]){
-    srcArr[0] = 1;
-    srcArr[1] = 1;
-    // printf("%d\n%d\n", arr[0], arr[1]);
-    for(i = 2; i < lenght; i++){
-        srcArr[0] = i;
-        srcArr[i] = srcArr[i-1] + srcArr[i-2];
-        // printf("%d\n", arr[i]);  
-    }
-}
+// void Fib(int srcArr[]){
+//     srcArr[0] = 1;
+//     srcArr[1] = 1;
+//     for(i = 2; i < lenght; i++){
+//         srcArr[0] = i;
+//         srcArr[i] = srcArr[i-1] + srcArr[i-2];
+//     }
+// }
 
-void offset(int srcArr1[], int srcArr2[]){
-    int temp[lenght];
-    temp[0] = 1;
+void offset(int signs[]){
+    int temp[lenght] = {1};
     for(i = 1; i < lenght; i++){      // create signature series
         if(i%2 == 0){
             temp[i] = temp[i-1] + i+1;
@@ -25,43 +22,49 @@ void offset(int srcArr1[], int srcArr2[]){
         else{
             temp[i] = temp[i-1] + i/2 +1;
         }
-        // printf("%d\n", temp[i]);
     }
-    bool sign = 0;                      // 0 = minus, 1 = plus
+    // for(i = 0; i < lenght/2; i++){
+    //     printf("%d\n", temp[i]);
+    // }
+    bool sign = 1;                      // 0 = minus, 1 = plus
     int count = 0;
-    int count1 = 0;
-    int count2 = 0;
-    for(i = 0; i < lenght; i++){     // sort sign entries
+    for(i = 0; i < lenght; i++){     // calculate sign positions
         if(count == 2){
             count = 0;
             sign = !sign;
         }
-        if(sign){                       // append to plus (remove count1 to Improve!)
-            srcArr1[count1] = temp[i];
-            count1++;
+        if(sign){                       // append +1 to position
+            signs[temp[i]-1] = 1;
         }
-        else if(!sign){                 // append to minus (remove count2 to Improve!)
-            srcArr2[count2] = temp[i];
-            count2++;
+        else if(!sign){                 // append -1 to position
+            signs[temp[i]-1] = -1;
         }
         count++;
     }
+    // for(i = 0; i < 2*lenght; i++){
+    //     printf("%d\n", signs[i]);
+    // }
 }
 
 int main(){
-    int src[lenght] = {0};
-    int plus[lenght/2] = {[0 ... lenght/2-1] = 10*lenght};         // fill array with scalable
-    int minus[lenght/2] = {[0 ... lenght/2-1] = 10*lenght};        // big number
-    Fib(src);
-    for(i = 0; i < 10; i++){
-        printf("%d\n", src[i]);
+    int src[lenght] = {1};
+    int signs[lenght*3] = {0};
+    offset(signs);                         // Fill signs array
+
+    int sum;
+    for(i = 1; i < lenght; i++){
+        src[0] = i;
+        for(j = 0; j < i; j++){
+            sum += signs[j]*src[i-j-1];
+        }
+        src[i] = sum;
+        if(sum == i+1){
+            printf("%d\n", i);
+        }
+        sum = 0;
     }
-    offset(plus, minus);
-    // for(i = 0; i < lenght/2; i++){
-    //     printf("%d\n", plus[i]);
-    // }
-    // for(i = 0; i < lenght/2; i++){
-    //     printf("%d\n", minus[i]);
+    // for(i = 0; i < lenght; i++){
+    //     printf("%d\n", src[i]);
     // }
     return 0;
 }
