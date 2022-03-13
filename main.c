@@ -4,7 +4,7 @@
 // ====== ToDo: Change src array to dynamic to prevent too large mem allocation ======
 
 #define lenght 2000             // check for primes up to this number
-int i,j;
+int i,j;                        // looping indices
 
 // void Fib(int srcArr[]){
 //     srcArr[0] = 1;
