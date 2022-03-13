@@ -3,7 +3,7 @@
 
 // ====== ToDo: Change src array to dynamic to prevent too large mem allocation ======
 
-#define lenght 45
+#define lenght 2000             // check for primes up to this number
 int i,j;
 
 // void Fib(int srcArr[]){
@@ -17,12 +17,12 @@ int i,j;
 
 void offset(int signs[]){
     int temp[lenght] = {1};
-    for(i = 1; i < lenght; i++){      // create signature series
+    for(i = 1; i < lenght; i++){      // create pentagonal series (sign positions)
         if(i%2 == 0){
-            temp[i] = temp[i-1] + i+1;
+            temp[i] = temp[i-1] + i+1;    // increase by odd ascending int (3, 5, 7, ...)
         }
         else{
-            temp[i] = temp[i-1] + i/2 +1;
+            temp[i] = temp[i-1] + i/2 +1;   // increase by ascending int (1, 2, 3, ...)
         }
     }
     // for(i = 0; i < lenght/2; i++){
@@ -31,7 +31,8 @@ void offset(int signs[]){
     bool sign = 1;                      // 0 = minus, 1 = plus
     int count = 0;
     for(i = 0; i < lenght; i++){     // calculate sign positions
-        if(count == 2){
+        if(temp[i] < lenght*2){
+            if(count == 2){
             count = 0;
             sign = !sign;
         }
@@ -41,7 +42,8 @@ void offset(int signs[]){
         else if(!sign){                 // append -1 to position
             signs[temp[i]-1] = -1;
         }
-        count++;
+        count++;           
+        }
     }
     // for(i = 0; i < 2*lenght; i++){
     //     printf("%d\n", signs[i]);
@@ -50,17 +52,21 @@ void offset(int signs[]){
 
 int main(){
     int src[lenght] = {1};
-    int signs[lenght*3] = {0};
+    int signs[lenght*2] = {0};
     offset(signs);                         // Fill signs array
 
-    int sum;
+    int sum = 0;
     for(i = 1; i < lenght; i++){
         src[0] = i;
         for(j = 0; j < i; j++){
             sum += signs[j]*src[i-j-1];
+            // if(signs[j]*src[i-j-1] != 0){
+            //     printf("%d  ", signs[j]*src[i-j-1]);
+            // }
         }
+        // printf("= %d \n", sum);
         src[i] = sum;
-        if(sum == i+1){
+        if(sum == i+1){                 // check for primes
             printf("%d\n", i);
         }
         sum = 0;
