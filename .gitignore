@@ -4,4 +4,6 @@
 .vscode/settings.json
 .vscode/launch.json
 build/Debug/outDebug
+build/Debug/fixed.o
+build/Debug/Arg.o
 build/Debug/main.o

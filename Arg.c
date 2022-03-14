@@ -1,22 +1,15 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 // ====== ToDo: Change src array to dynamic to prevent too large mem allocation ======
 
-#define lenght 2000             // check for primes up to this number
-int i,j;                        // looping indices
+// #define lenght 2000             // check for primes up to this number
+int i, j;                        // looping indices
 
-// void Fib(int srcArr[]){
-//     srcArr[0] = 1;
-//     srcArr[1] = 1;
-//     for(i = 2; i < lenght; i++){
-//         srcArr[0] = i;
-//         srcArr[i] = srcArr[i-1] + srcArr[i-2];
-//     }
-// }
-
-void offset(int signs[]){
-    int temp[lenght] = {1};
+void offset(int signs[], int lenght){
+    int temp[lenght];
+    temp[0] = 1;
     for(i = 1; i < lenght; i++){      // create pentagonal series (sign positions)
         if(i%2 == 0){
             temp[i] = temp[i-1] + i+1;    // increase by odd ascending int (3, 5, 7, ...)
@@ -50,10 +43,17 @@ void offset(int signs[]){
     // }
 }
 
-int main(){
-    int src[lenght] = {1};
-    int signs[lenght*2] = {0};
-    offset(signs);                         // Fill signs array
+int main(int argc, char *argv[]){
+    int lenght;
+    lenght = atoi(argv[1]);
+    int src[lenght];
+    int signs[lenght*2];
+    src[0] = 1;
+    for(i = 1;i < lenght; i++){             // Fill signs array with 0
+        signs[i] = 0;
+        signs[i+lenght] = 0;
+    }
+    offset(signs, lenght);                         // Fill signs array
 
     int sum = 0;
     for(i = 1; i < lenght; i++){
